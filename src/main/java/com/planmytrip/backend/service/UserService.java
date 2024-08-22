@@ -6,6 +6,7 @@ import com.planmytrip.backend.repository.UserRepository;
 import com.planmytrip.backend.repository.VerificationTokenRepository;
 import com.planmytrip.backend.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -32,6 +33,9 @@ public class UserService implements UserDetailsService {
     private JavaMailSender mailSender;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public ResponseEntity<?> loginUser(User user) {
         Map<String, String> response = new HashMap<>();
@@ -112,7 +116,7 @@ public class UserService implements UserDetailsService {
 
         String recipientAddress = user.getEmail();
         String subject = "Email Verification";
-        String confirmationUrl = "http://localhost:8080/auth/verify?token=" + token;
+        String confirmationUrl = baseUrl + "/auth/verify?token=" + token;
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
