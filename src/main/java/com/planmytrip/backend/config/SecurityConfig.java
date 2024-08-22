@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    @Value("${cors.allowed-origins}")
+    @Value("#{'${cors.allowed-origins}'.split(',')}")
     private List<String> allowedOrigins;
 
     @Bean
