@@ -1,4 +1,13 @@
 package com.planmytrip.backend.model;
 
-public record ItineraryDTO(Long id, String itinerary) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ItineraryDTO {
+    private Long id;
+    private String itinerary;
 }

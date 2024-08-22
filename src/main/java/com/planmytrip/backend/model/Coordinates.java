@@ -1,3 +1,13 @@
 package com.planmytrip.backend.model;
 
-public record Coordinates(double lat, double lng) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Coordinates{
+    private double lat;
+    private double lng;
+}
