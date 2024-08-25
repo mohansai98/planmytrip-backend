@@ -91,9 +91,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-    @PostConstruct
-    public void logAllowedOrigins() {
-        System.out.println("Allowed origins: " + allowedOrigins);
-    }
 }
