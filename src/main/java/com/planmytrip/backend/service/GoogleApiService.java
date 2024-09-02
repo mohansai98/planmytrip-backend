@@ -38,28 +38,4 @@ public class GoogleApiService {
         }
     }
 
-//    public Mono<Activity> getPlaceDetails(Activity activity) {
-//        return Mono.fromCallable(() -> {
-//            PlacesSearchResult[] results = PlacesApi.textSearchQuery(context, activity.getLocation()).await().results;
-//            if (results.length > 0) {
-//                String placeId = results[0].placeId;
-//                activity.setPlaceId(placeId);
-//
-//                Coordinates coordinates = new Coordinates(
-//                        results[0].geometry.location.lat,
-//                        results[0].geometry.location.lng
-//                );
-//                PlaceDetails placeDetails = PlacesApi.placeDetails(context, placeId).awaitIgnoreError();
-//                if(placeDetails != null) {
-//                    activity.setLocation(placeDetails.formattedAddress);
-//                }
-//                activity.setCoordinates(coordinates);
-//            }
-//            return activity;
-//        }).onErrorResume(e -> {
-//            System.out.println("Error fetching place details: " + e.getLocalizedMessage());
-//            return Mono.just(activity);
-//        });
-//    }
-
 }

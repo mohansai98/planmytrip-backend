@@ -26,12 +26,6 @@ public class ItineraryController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/generate")
-//    public Mono<ResponseEntity<ItineraryResponse>> generateItinerary(@RequestBody ItineraryRequest request) {
-//        return itineraryService.generateItinerary(request)
-//                .map(ResponseEntity::ok);
-//    }
-
     @PostMapping("/save")
     public ResponseEntity<String> saveItinerary(@RequestHeader("Authorization") String authorizationHeader, @RequestBody String data) {
         String token = null;

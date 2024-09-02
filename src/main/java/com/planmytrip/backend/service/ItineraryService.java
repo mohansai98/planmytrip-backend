@@ -43,36 +43,6 @@ public class ItineraryService {
         return response;
     }
 
-//    private ItineraryResponse validateAndEnrichResponse(ItineraryResponse response) {
-//        for (DayPlan day : response.getItinerary()) {
-//            for (Activity activity : day.getActivities()) {
-//                googleApiService.getPlaceDetails(activity);
-//            }
-//        }
-//        return response;
-//    }
-
-//    public Mono<ItineraryResponse> generateItinerary(ItineraryRequest request) {
-//        return Mono.fromCallable(() -> openAiService.generateItinerary(request))
-//                .flatMap(this::validateAndEnrichResponse);
-//    }
-//
-//    private Mono<ItineraryResponse> validateAndEnrichResponse(ItineraryResponse response) {
-//        return Flux.fromIterable(response.getItinerary())
-//                .flatMap(day -> Flux.fromIterable(day.getActivities())
-//                        .flatMap(googleApiService::getPlaceDetails)
-//                        .collectList()
-//                        .map(enrichedActivities -> {
-//                            day.setActivities(enrichedActivities);
-//                            return day;
-//                        }))
-//                .collectList()
-//                .map(enrichedDayPlans -> {
-//                    response.setItinerary(enrichedDayPlans);
-//                    return response;
-//                });
-//    }
-
     public ResponseEntity<String> saveItinerary(String data, String email) {
         try {
             User user = userRepository.findByEmail(email).orElse(null);
