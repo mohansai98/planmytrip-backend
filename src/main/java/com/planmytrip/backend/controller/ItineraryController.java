@@ -6,6 +6,7 @@ import com.planmytrip.backend.service.ItineraryService;
 import com.planmytrip.backend.util.JwtTokenUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/itinerary")
@@ -24,6 +25,12 @@ public class ItineraryController {
         ItineraryResponse response = itineraryService.generateItinerary(request);
         return ResponseEntity.ok(response);
     }
+
+//    @PostMapping("/generate")
+//    public Mono<ResponseEntity<ItineraryResponse>> generateItinerary(@RequestBody ItineraryRequest request) {
+//        return itineraryService.generateItinerary(request)
+//                .map(ResponseEntity::ok);
+//    }
 
     @PostMapping("/save")
     public ResponseEntity<String> saveItinerary(@RequestHeader("Authorization") String authorizationHeader, @RequestBody String data) {

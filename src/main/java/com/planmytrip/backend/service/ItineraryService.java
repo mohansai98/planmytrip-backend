@@ -6,9 +6,12 @@ import com.planmytrip.backend.repository.ItineraryRepository;
 import com.planmytrip.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class ItineraryService {
@@ -27,17 +30,48 @@ public class ItineraryService {
 
     public ItineraryResponse generateItinerary(ItineraryRequest request) {
         ItineraryResponse response = openAiService.generateItinerary(request);
+        System.out.println(response);
         return validateAndEnrichResponse(response);
     }
 
     private ItineraryResponse validateAndEnrichResponse(ItineraryResponse response) {
-        for (DayPlan day : response.getItinerary()) {
-            for (Activity activity : day.getActivities()) {
-                googleApiService.getPlaceDetails(activity);
-            }
-        }
+
+        CompletableFuture.allOf(response.getItinerary().stream()
+                .flatMap(day -> day.getActivities().stream())
+                .map(activity -> CompletableFuture.runAsync(() -> googleApiService.getPlaceDetails(activity))).toArray(CompletableFuture[]::new)).join();
+
         return response;
     }
+
+//    private ItineraryResponse validateAndEnrichResponse(ItineraryResponse response) {
+//        for (DayPlan day : response.getItinerary()) {
+//            for (Activity activity : day.getActivities()) {
+//                googleApiService.getPlaceDetails(activity);
+//            }
+//        }
+//        return response;
+//    }
+
+//    public Mono<ItineraryResponse> generateItinerary(ItineraryRequest request) {
+//        return Mono.fromCallable(() -> openAiService.generateItinerary(request))
+//                .flatMap(this::validateAndEnrichResponse);
+//    }
+//
+//    private Mono<ItineraryResponse> validateAndEnrichResponse(ItineraryResponse response) {
+//        return Flux.fromIterable(response.getItinerary())
+//                .flatMap(day -> Flux.fromIterable(day.getActivities())
+//                        .flatMap(googleApiService::getPlaceDetails)
+//                        .collectList()
+//                        .map(enrichedActivities -> {
+//                            day.setActivities(enrichedActivities);
+//                            return day;
+//                        }))
+//                .collectList()
+//                .map(enrichedDayPlans -> {
+//                    response.setItinerary(enrichedDayPlans);
+//                    return response;
+//                });
+//    }
 
     public ResponseEntity<String> saveItinerary(String data, String email) {
         try {
