@@ -6,12 +6,9 @@ import com.planmytrip.backend.repository.ItineraryRepository;
 import com.planmytrip.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @Service
 public class ItineraryService {
@@ -30,7 +27,6 @@ public class ItineraryService {
 
     public ItineraryResponse generateItinerary(ItineraryRequest request) {
         ItineraryResponse response = openAiService.generateItinerary(request);
-        System.out.println(response);
         return validateAndEnrichResponse(response);
     }
 

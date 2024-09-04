@@ -15,6 +15,7 @@ public class Activity {
     private String placeId;
     private Coordinates coordinates;
     private TimeOfDay type;
+    private String photoUrl;
 
     public enum TimeOfDay {
         MORNING, AFTERNOON, EVENING, FULL_DAY

@@ -6,7 +6,6 @@ import com.planmytrip.backend.service.ItineraryService;
 import com.planmytrip.backend.util.JwtTokenUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/itinerary")

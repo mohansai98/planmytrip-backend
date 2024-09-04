@@ -2,23 +2,25 @@ package com.planmytrip.backend.service;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
-import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.Photo;
 import com.google.maps.model.PlacesSearchResult;
 import com.planmytrip.backend.model.Activity;
 import com.planmytrip.backend.model.Coordinates;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+
 
 @Service
 public class GoogleApiService {
 
     private final GeoApiContext context;
+    private final String apiKey;
 
     public GoogleApiService(@Value("${google.api.key}") String apiKey) {
         this.context = new GeoApiContext.Builder()
                 .apiKey(apiKey)
                 .build();
+        this.apiKey = apiKey;
     }
 
     public void getPlaceDetails(Activity activity) {
@@ -32,9 +34,20 @@ public class GoogleApiService {
                 );
                 activity.setCoordinates(coordinates);
                 activity.setLocation(results[0].formattedAddress);
+                Photo[] photos = results[0].photos;
+                if (photos != null && photos.length > 0) {
+                    Photo firstPhoto = photos[0];
+                    String photoUrl = "https://maps.googleapis.com/maps/api/place/photo?"
+                            + "maxwidth=400"
+                            + "&maxheight=300"
+                            + "&photoreference=" + firstPhoto.photoReference
+                            + "&key=";
+                    activity.setPhotoUrl(photoUrl);
+                }
+
             }
         } catch (Exception e) {
-            System.out.println("Error fetching place details: "+ e.getLocalizedMessage());
+            System.out.println("Error fetching place details: " + e.getLocalizedMessage());
         }
     }
 
