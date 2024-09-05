@@ -27,7 +27,7 @@ public class ItineraryController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveItinerary(@RequestHeader("Authorization") String authorizationHeader, @RequestBody String data) {
-        String token = null;
+        String token;
         String email = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
@@ -38,7 +38,7 @@ public class ItineraryController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getItineraries(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = null;
+        String token;
         String email = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
@@ -49,7 +49,7 @@ public class ItineraryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteItinerary(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader) {
-        String token = null;
+        String token;
         String email = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);

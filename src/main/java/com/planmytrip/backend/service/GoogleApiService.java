@@ -14,13 +14,11 @@ import org.springframework.stereotype.Service;
 public class GoogleApiService {
 
     private final GeoApiContext context;
-    private final String apiKey;
 
     public GoogleApiService(@Value("${google.api.key}") String apiKey) {
         this.context = new GeoApiContext.Builder()
                 .apiKey(apiKey)
                 .build();
-        this.apiKey = apiKey;
     }
 
     public void getPlaceDetails(Activity activity) {
@@ -41,8 +39,9 @@ public class GoogleApiService {
                             + "maxwidth=400"
                             + "&maxheight=300"
                             + "&photoreference=" + firstPhoto.photoReference
-                            + "&key=";
+                            + "&key=AIzaSyC_ns2muhZYrlbsO5zyQR_x8jniRDuR7Ho";
                     activity.setPhotoUrl(photoUrl);
+
                 }
 
             }
